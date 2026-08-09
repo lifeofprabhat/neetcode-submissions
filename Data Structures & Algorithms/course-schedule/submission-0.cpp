@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> adj[1001];
+
+    bool canFinish(int numC, vector<vector<int>>& preq) {
+      
+      vector<int> ind(1001,0);
+
+      for(auto v : preq){
+         ind[v[0]]++;
+         adj[v[1]].push_back(v[0]);
+      }
+        
+
+        queue<int> q;
+
+        for(int i=0;i<numC;i++){
+            if(!ind[i])
+              q.push(i);
+        }
+
+        while(!q.empty()){
+            int curr = q.front();
+            q.pop();
+            for(auto child : adj[curr]){
+               ind[child]--;
+               if(!ind[child]) 
+                  q.push(child);
+            }
+        }
+
+        for(int i=0;i<numC;i++){
+            if(ind[i]) return 0;
+        }
+
+        return 1;
+    }
+};
